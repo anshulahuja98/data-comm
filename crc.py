@@ -8,8 +8,8 @@ def crc_decode(data, key):
     # Appends n-1 zeroes at end of data
     appended_data = data + '0' * (l_key - 1)
     remainder = mod2div(appended_data, key)
-
-    return remainder
+    text = bits2str(data[:-len(CRC_KEY)+1])
+    return remainder, text
 
 
 def crc_encode(data, key):

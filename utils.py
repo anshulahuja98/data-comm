@@ -8,7 +8,6 @@ def xor(a, b):
     return ''.join(result)
 
 
-# Modulo-2 division
 def mod2div(divident, divisor):
     pick = len(divisor)
 

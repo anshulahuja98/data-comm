@@ -7,19 +7,18 @@ def main():
     sock = socket.socket()
     sock.connect(('127.0.0.1', SERVER_PORT))
 
-    input_string = input("Enter data you want to send->")
-    # s.sendall(input_string)
-    data = (''.join(format(ord(x), 'b') for x in input_string))
-    print(data)
-    ans = crc_encode(data, CRC_KEY)
-    print(ans)
-    sock.sendall(ans.encode())
+    inp = input("Enter data you want to send->")
+    data = str2bits(inp)
+    print("Data sent: " + inp)
+    encoded_data = crc_encode(data, CRC_KEY)
+    print("Encoded data sent: " + encoded_data)
 
-    # receive data from the server
-    # print
-    l = sock.recv(1024)
-    l = l.decode()
-    print(l)
+    sock.sendall(encoded_data.encode())
+
+    response = sock.recv(BUFFER_SIZE)
+    response = response.decode()
+    print("###### RESPONSE RECIEVED FROM SERVER ######")
+    print(response)
 
     sock.close()
 

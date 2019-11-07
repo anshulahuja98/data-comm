@@ -1,5 +1,4 @@
 import socket
-import binascii
 from crc import *
 from constants import *
 
@@ -9,37 +8,28 @@ def main():
     print("Socket successfully created")
 
     sock.bind(('', SERVER_PORT))
-    print("socket binded to %s" % (SERVER_PORT))
-    # put the socket into listening mode
-    sock.listen(5)
-    print("socket is listening")
+    print("Server socket binded to %s" % (SERVER_PORT))
+    sock.listen(10)
+    print("Server is listening for requests on %s" % (SERVER_PORT))
 
     while True:
-        c, addr = sock.accept()
-        print('Got connection from', addr)
-
-        # Get data from client
-        data = c.recv(1024)
-        print(data)
-        # print(data[:-3])
-        # print(binascii.b2a_uu(data[:-3]))
-        # print(stringData)
-
-        data = data.decode()
-
+        request_socket, request_address = sock.accept()
+        print("Incoming connection from ", request_address)
+        data = request_socket.recv(BUFFER_SIZE)
         if not data:
             break
+        data = data.decode()
 
-        ans = crc_decode(data, CRC_KEY)
-        print("Remainder after decoding is->" + ans)
+        remainder, text = crc_decode(data, CRC_KEY)
+        print("Data Received :" + data + "\nString data: " + text + "\nNo error found!")
+        print("Remainder after decoding is->" + remainder)
 
-        # If remainder is all zeros then no error occured
-        if not is_crc_error(ans):
-            msg = "Data Received :" + data + "\nNo error found!"
-            c.sendall(msg.encode())
+        if not is_crc_error(remainder):
+            msg = "Data Received :" + data + "\nString data: " + text + "\nNo error found!"
+            request_socket.sendall(msg.encode())
         else:
-            c.sendall("Error in data".encode())
-        c.close()
+            request_socket.sendall("Error in data".encode())
+        request_socket.close()
 
 
 if __name__ == '__main__':

@@ -3,6 +3,7 @@ from crc import *
 from constants import *
 from framer import *
 from manchester import *
+from error import induce_error
 
 
 def main():
@@ -11,9 +12,12 @@ def main():
 
     inp = input("Enter data to send: ")
     data = str2bits(inp)
-    print("Data sent: " + inp)
+    print("Data : " + inp)
     encoded_data = crc_encode(data, CRC_KEY)
-    print("Encoded data sent: " + encoded_data)
+    print("Encoded data: " + encoded_data)
+    op = input("Induce error in data to be sent? (y/n) ")
+    if op == "y":
+        encoded_data = induce_error(encoded_data)
     frame = create_frame(encoded_data)
     print("Frame sent: " + frame)
     physical_enc_data = manchester_encode(frame)

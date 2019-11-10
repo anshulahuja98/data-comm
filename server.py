@@ -25,14 +25,16 @@ def main():
         data = de_frame(frame_received)
         print("Frame Received :" + frame_received)
         remainder, text = crc_decode(data, CRC_KEY)
-        print("Data Received :" + data + "\nString data: " + text + "\nNo error found!")
         print("Remainder after decoding is->" + remainder)
 
         if not is_crc_error(remainder):
             msg = "Data Received :" + data + "\nString data: " + text + "\nNo error found!"
             request_socket.sendall(msg.encode())
+            print(msg)
         else:
-            request_socket.sendall("Error in data".encode())
+            msg = "Error in data"
+            request_socket.sendall(msg.encode())
+            print(msg)
         request_socket.close()
 
 

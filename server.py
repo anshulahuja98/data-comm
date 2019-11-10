@@ -2,6 +2,7 @@ import socket
 from crc import *
 from constants import *
 from framer import *
+from manchester import *
 
 
 def main():
@@ -16,12 +17,12 @@ def main():
     while True:
         request_socket, request_address = sock.accept()
         print("Incoming connection from ", request_address)
-        encoded_frame_received = request_socket.recv(BUFFER_SIZE)
+        physical_enc_data_received = request_socket.recv(BUFFER_SIZE)
 
-        if not encoded_frame_received:
+        if not physical_enc_data_received:
             break
 
-        frame_received = encoded_frame_received.decode()
+        frame_received = manchester_decode(physical_enc_data_received.decode())
         data = de_frame(frame_received)
 
         remainder, text = crc_decode(data, CRC_KEY)

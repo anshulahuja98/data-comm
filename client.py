@@ -2,6 +2,7 @@ import socket
 from crc import *
 from constants import *
 from framer import *
+from manchester import *
 
 
 def main():
@@ -15,8 +16,10 @@ def main():
     print("Encoded data sent: " + encoded_data)
     frame = create_frame(encoded_data)
     print("Frame sent: " + frame)
+    physical_enc_data = manchester_encode(frame)
+    print("Manchester encoded frame: " + physical_enc_data)
 
-    sock.sendall(frame.encode())
+    sock.sendall(physical_enc_data.encode())
 
     response = sock.recv(BUFFER_SIZE)
     response = response.decode()

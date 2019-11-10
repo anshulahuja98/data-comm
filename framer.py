@@ -15,8 +15,8 @@ def create_frame(data):
             frame += "10"
         else:
             frame += bit
-    print(frame)
-    print(data)
+    # print(frame)
+    # print(data)
     return FRAME_FLAG + frame + FRAME_FLAG
 
 

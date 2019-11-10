@@ -23,7 +23,7 @@ def main():
 
         frame_received = encoded_frame_received.decode()
         data = de_frame(frame_received)
-
+        print("Frame Received :" + frame_received)
         remainder, text = crc_decode(data, CRC_KEY)
         print("Data Received :" + data + "\nString data: " + text + "\nNo error found!")
         print("Remainder after decoding is->" + remainder)

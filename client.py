@@ -10,9 +10,9 @@ def main():
 
     inp = input("Enter data to send: ")
     data = str2bits(inp)
-    print("Data sent: " + inp)
+    print("Data : " + inp)
     encoded_data = crc_encode(data, CRC_KEY)
-    print("Encoded data sent: " + encoded_data)
+    print("Encoded data: " + encoded_data)
     frame = create_frame(encoded_data)
     print("Frame sent: " + frame)
 

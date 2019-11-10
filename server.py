@@ -21,7 +21,7 @@ def main():
 
         if not physical_enc_data_received:
             break
-
+        print("Manchester encoded frame:", physical_enc_data_received.decode())
         frame_received = manchester_decode(physical_enc_data_received.decode())
         data = de_frame(frame_received)
         print("Frame Received :" + frame_received)
